@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Gas Tank Challenge Emulator</title>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        if(typeof(Storage) !== "undefined") {
+            $('input[name=cost]').val(localStorage.getItem('cost'));
+            $('input[name=size]').val(localStorage.getItem('size'));
+        }
+
+        $('input').keydown(function() {
+            try {
+                var cost = parseFloat($('input[name=cost]').val());
+                var size = parseFloat($('input[name=size]').val());
+                var amount = parseFloat($('input[name=amount]').val());
+                if(typeof(Storage) !== "undefined") {
+                    localStorage.setItem('cost', cost);
+                    localStorage.setItem('size', size);
+                }
+                var price = parseFloat(Math.ceil(100*(1-(amount/100.0))*size*cost)/100).toFixed(2);
+                if(isNaN(price)) throw null;
+                $('#cost-to-fill').text('$' + price);
+            } catch(err) {
+                $('#cost-to-fill').text('N/A');
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <h1>Gas Tank Challenge Emulator</h1>
+    <form>
+        <label>Cost of gas ($): </label><input type="text" name="cost" /><br />
+        <label>Size of tank (gal): </label><input type="text" name="size" /><br />
+        <label>Amount in tank (%): </label><input type="text" name="amount" /><br />
+    </form>
+    Cost to fill: <span id="cost-to-fill">N/A</span>
+</body>
+</html>
